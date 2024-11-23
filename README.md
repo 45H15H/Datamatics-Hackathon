@@ -1,6 +1,6 @@
-# Project Title
+# SOPPY-MAIL
 
-
+Managing customer feedback manually can be challenging, leading to delays and errors that strain service teams. Automation tools like Datamatics TruBot and TruCap+ simplify this process by automating feedback retrieval, sentiment analysis, and data extraction. These tools ensure faster response times, greater accuracy, and personalized service by automating repetitive tasks and allowing teams to focus on critical customer needs.
 
 ## Getting Started
 
@@ -29,7 +29,7 @@ git clone https://github.com/45H15H/Datamatics-Hackathon.git
 
 ## Running the project
 
-1. First, we need to send fake emails from the assumed customers to the company. To do this, open the `email_dispatcher.py` script.
+• First, we need to send fake emails from the assumed customers to the company. To do this, open the `email_dispatcher.py` script.
 
 Make the required changes to the script and save it.
 
@@ -57,7 +57,7 @@ note: If you are using Gmail, you need to make App Passwords [here.](https://mya
 ++RECIPIENT_EMAIL = '<company email address>'
 ```
 
-2. Prepare the TruBot workflow to process the emails.
+• Prepare the TruBot workflow to send the emails.
 
 1. Open the TruBot Designer.
 2. Click on the `Open Process` button and select the `ProcessInfo.json` file in `SendFakeEmails` folder.
@@ -66,7 +66,7 @@ note: If you are using Gmail, you need to make App Passwords [here.](https://mya
 5. Save the workflow.
 6. Publish the workflow by clicking on the `Publish` button. Then click on the `Export` button to export the workflow into a zip file.
 
-Now let's setup the __Email Feedback Analysis Automation__.
+• Now let's setup the __Email Feedback Analysis Automation__.
 
 1. Create a folder where you want to save the customer emails. Example: `C:\Datamatics-Hackathon\Emails`. In that folder create a folder called `SaveIMAPmail`. This folder will be used to save the emails from the customers.
 
@@ -95,8 +95,7 @@ This script will read the saved emails in the `SaveIMAPmail` folder and save the
 11. Select the `ForEach DataRow` component in the workflow and edit the `Send SMTP Mail` component. Set the `Email ID` and `Sender Email ID` property to the assumed company email. Set the `Password` property to the app password of company email. Set the `To` property to the email address of the assumed customer support team email. Don't update the `Subject` and `Message Body` properties.
 12. Save the workflow.
 13. Publish the workflow by clicking on the `Publish` button. Then click on the `Export` button to export the workflow into a zip file.
-
-
+    
 ## Running the bots
 
 1. Open the TruBot Cockpit Personal.
@@ -105,38 +104,19 @@ This script will read the saved emails in the `SaveIMAPmail` folder and save the
 4. Click on the `Run` button to run the `SendFakeEmails` workflow.
 5. Click on the `Run` button to run the `FeedbackAnalysis` workflow.
 
+## Team Details
 
+__Team ID:__ Data-230344
 
+__Member 1:__ 
 
-## Built With
+Ashish Singh (Team leader) 
 
-* [Technology 1](link)
-* [Technology 2](link)
+Role: Design and development of the bot using TruBot Designer.
 
+__Member 2:__ 
 
-## Contributing
+Khushi B Hanumannavar (Member)
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Role: Handle tasks related to TruCap+.
 
-
-## Versioning
-
-We use SemVer for versioning. For the versions available, see the [tags on this repository](https://github.com/yourusername/yourrepo/tags).
-
-
-## Authors
-
-* **Your Name** - *Initial work* - [yourusername](https://github.com/yourusername)
-
-
-## License
-
-This project is licensed under the [MIT License](LICENSE.md) - see the [LICENSE.md](LICENSE.md) file for details.
-
-
-## Acknowledgments
-
-Give credit to anyone who has contributed to this project.  For example:
-
-* [Inspiration](https://www.example.com)
-* [Other project](https://www.example.com)
