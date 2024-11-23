@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfVariables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="5.4.0.21668">
+  <Variables name="Variable">
+  </Variables>
+  <Variables name="ExcelReader">
+  </Variables>
+  <Variables name="CSVText">
+  </Variables>
+  <Variables name="DataTable">
+  </Variables>
+  <Variables name="Configuration">
+  </Variables>
+  <Variables name="Parameter">
+  </Variables>
+</ArrayOfVariables>
