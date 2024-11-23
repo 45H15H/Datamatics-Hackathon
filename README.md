@@ -6,7 +6,7 @@ Managing customer feedback manually can be challenging, leading to delays and er
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+## Prerequisites
 
 You will need active subscriptions to the following services:
 
@@ -19,7 +19,7 @@ You will also need to install the following software:
 * TruBot Cockpit Personal
 * TruBot Designer
 
-### Installing
+## Installing
 
 Clone the repository to your local machine or download the zip file and extract the contents to a folder.
 
@@ -38,7 +38,8 @@ Make the required changes to the script and save it.
 ++GEMINI_API_KEY = '<your api key>'
 ```
 
-note: You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/docs/api-key)
+> [!NOTE]  
+> You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/docs/api-key)
 
 ```diff
 --SENDER_EMAIL = 'customer@example'
@@ -50,7 +51,8 @@ note: You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/d
 ++APP_PASSWORD = '<your app password>'
 ```
 
-note: If you are using Gmail, you need to make App Passwords [here.](https://myaccount.google.com/apppasswords)
+> [!NOTE]
+> If you are using Gmail, you need to make App Passwords [here.](https://myaccount.google.com/apppasswords)
 
 ```diff
 --RECIPIENT_EMAIL = 'company@example.com'
@@ -95,7 +97,7 @@ This script will read the saved emails in the `SaveIMAPmail` folder and save the
 11. Select the `ForEach DataRow` component in the workflow and edit the `Send SMTP Mail` component. Set the `Email ID` and `Sender Email ID` property to the assumed company email. Set the `Password` property to the app password of company email. Set the `To` property to the email address of the assumed customer support team email. Don't update the `Subject` and `Message Body` properties.
 12. Save the workflow.
 13. Publish the workflow by clicking on the `Publish` button. Then click on the `Export` button to export the workflow into a zip file.
-    
+
 ## Running the bots
 
 1. Open the TruBot Cockpit Personal.
@@ -108,15 +110,14 @@ This script will read the saved emails in the `SaveIMAPmail` folder and save the
 
 __Team ID:__ Data-230344
 
-__Member 1:__ 
+__Member 1:__
 
-Ashish Singh (Team leader) 
+Ashish Singh (Team leader)
 
 Role: Design and development of the bot using TruBot Designer.
 
-__Member 2:__ 
+__Member 2:__
 
 Khushi B Hanumannavar (Member)
 
 Role: Handle tasks related to TruCap+.
-
