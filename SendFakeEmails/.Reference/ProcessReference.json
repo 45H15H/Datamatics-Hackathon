@@ -1,0 +1,158 @@
+{
+  "PackageDependencies": {
+    "TruBot.Contracts": {},
+    "TruBot.Activities.Contracts": {},
+    "TruBot.Activities.Design.Base": {},
+    "TruBot.Recorder.Activities": {},
+    "Trubot.Excel.Activities": {},
+    "TruBot.ActiveDirectoryServices.Activities": {},
+    "TruBot.Cockpit.Activities": {},
+    "TruBot.Cryptography.Activities": {},
+    "TruBot.Database.Activities": {},
+    "TruBot.Email.Activities": {},
+    "TruBot.FTP.Activities": {},
+    "TruBot.GoogleApp.Activities": {},
+    "TruBot.SAP.API.Activities": {},
+    "TruBot.Web.Activities": {},
+    "TruBot.WordDoc.Activities": {},
+    "Trubot.Core.Activities": {},
+    "TruBot.PDF.Activities": {},
+    "TruBot.SalesforceCRM.Activities": {},
+    "TruBot.Microsoft365.Activities": {},
+    "TruBot.AWS": {},
+    "TruBot.AWS.Activities": {},
+    "TruBot.QRCode.Activities": {},
+    "TruBot.TruCap.Activities": {},
+    "TruBot.Python.Activities": {},
+    "TruBot.MicrosoftDynamics365.Activities": {}
+  },
+  "PackageAssemblies": {
+    "TruBot.Contracts": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Contracts.5.4.0.21668\\lib/net461/TruBot.Contracts.dll"
+    ],
+    "TruBot.Activities.Contracts": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Activities.Contracts.5.4.0.21668\\lib/net461/TruBot.Activities.Contracts.dll"
+    ],
+    "TruBot.Activities.Design.Base": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Activities.Design.Base.5.4.0.21668\\lib/net461/TruBot.Activities.Design.Base.dll"
+    ],
+    "TruBot.Recorder.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Recorder.Activities.5.4.0.21668\\lib/net461/TruBot.EventManager.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Recorder.Activities.5.4.0.21668\\lib/net461/TruBot.Recorder.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Recorder.Activities.5.4.0.21668\\lib/net461/TruBot.Recorder.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Recorder.Activities.5.4.0.21668\\lib/net461/TruBot.Recorder.Contract.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Recorder.Activities.5.4.0.21668\\lib/net461/TruBot.UiAutomation.dll"
+    ],
+    "Trubot.Excel.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Excel.Activities.5.4.0.21668\\lib/net461/TruBot.Excel.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Excel.Activities.5.4.0.21668\\lib/net461/TruBot.Excel.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Excel.Activities.5.4.0.21668\\lib/net461/TruBot.Excel.dll"
+    ],
+    "TruBot.ActiveDirectoryServices.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.ActiveDirectoryServices.Activities.5.4.0.21668\\lib/net461/TruBot.ActiveDirectoryServices.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.ActiveDirectoryServices.Activities.5.4.0.21668\\lib/net461/TruBot.ActiveDirectoryServices.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.ActiveDirectoryServices.Activities.5.4.0.21668\\lib/net461/TruBot.ActiveDirectoryServices.dll"
+    ],
+    "TruBot.Cockpit.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Cockpit.Activities.5.4.0.21668\\lib/net461/TruBot.Cockpit.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Cockpit.Activities.5.4.0.21668\\lib/net461/TruBot.Cockpit.Activities.dll"
+    ],
+    "TruBot.Cryptography.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Cryptography.Activities.5.4.0.21668\\lib/net461/TruBot.Cryptography.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Cryptography.Activities.5.4.0.21668\\lib/net461/TruBot.Cryptography.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Cryptography.Activities.5.4.0.21668\\lib/net461/TruBot.Cryptography.dll"
+    ],
+    "TruBot.Database.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Database.Activities.5.4.0.21668\\lib/net461/TruBot.Database.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Database.Activities.5.4.0.21668\\lib/net461/TruBot.Database.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Database.Activities.5.4.0.21668\\lib/net461/TruBot.Database.dll"
+    ],
+    "TruBot.Email.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Email.Activities.5.4.0.21668\\lib/net461/TruBot.Email.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Email.Activities.5.4.0.21668\\lib/net461/TruBot.Email.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Email.Activities.5.4.0.21668\\lib/net461/TruBot.Email.dll"
+    ],
+    "TruBot.FTP.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.FTP.Activities.5.4.0.21668\\lib/net461/TruBot.FTP.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.FTP.Activities.5.4.0.21668\\lib/net461/TruBot.FTP.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.FTP.Activities.5.4.0.21668\\lib/net461/TruBot.FTP.dll"
+    ],
+    "TruBot.GoogleApp.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.GoogleApp.Activities.5.4.0.21668\\lib/net461/TruBot.GoogleApp.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.GoogleApp.Activities.5.4.0.21668\\lib/net461/TruBot.GoogleApp.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.GoogleApp.Activities.5.4.0.21668\\lib/net461/TruBot.GoogleApp.dll"
+    ],
+    "TruBot.SAP.API.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SAP.API.Activities.5.4.0.21668\\lib/net461/TruBot.SAP.API.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SAP.API.Activities.5.4.0.21668\\lib/net461/TruBot.SAP.API.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SAP.API.Activities.5.4.0.21668\\lib/net461/TruBot.SAP.API.dll"
+    ],
+    "TruBot.Web.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Web.Activities.5.4.0.21668\\lib/net461/TruBot.Web.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Web.Activities.5.4.0.21668\\lib/net461/TruBot.Web.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Web.Activities.5.4.0.21668\\lib/net461/TruBot.Web.dll"
+    ],
+    "TruBot.WordDoc.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.WordDoc.Activities.5.4.0.21668\\lib/net461/TruBot.WordDoc.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.WordDoc.Activities.5.4.0.21668\\lib/net461/TruBot.WordDoc.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.WordDoc.Activities.5.4.0.21668\\lib/net461/TruBot.WordDoc.dll"
+    ],
+    "Trubot.Core.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Core.Activities.5.4.0.21668\\lib/net461/Microsoft.Activities.Extensions.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Core.Activities.5.4.0.21668\\lib/net461/Microsoft.Activities.Extensions.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Core.Activities.5.4.0.21668\\lib/net461/TruBot.Core.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Core.Activities.5.4.0.21668\\lib/net461/TruBot.Core.Activities.dll"
+    ],
+    "TruBot.PDF.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.PDF.Activities.5.4.0.21668\\lib/net461/TruBot.PDF.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.PDF.Activities.5.4.0.21668\\lib/net461/TruBot.PDF.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.PDF.Activities.5.4.0.21668\\lib/net461/TruBot.PDF.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.PDF.Activities.5.4.0.21668\\lib/net461/TruBot.PDF.FreeSpire.dll"
+    ],
+    "TruBot.SalesforceCRM.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SalesforceCRM.Activities.5.4.0.21668\\lib/net461/TruBot.SalesforceCRM.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SalesforceCRM.Activities.5.4.0.21668\\lib/net461/TruBot.SalesforceCRM.Activities.DesignUI.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SalesforceCRM.Activities.5.4.0.21668\\lib/net461/TruBot.SalesforceCRM.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.SalesforceCRM.Activities.5.4.0.21668\\lib/net461/TruBot.SalesforceCRM.dll"
+    ],
+    "TruBot.Microsoft365.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Microsoft365.Activities.5.4.0.21668\\lib/net461/TruBot.Microsoft365.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Microsoft365.Activities.5.4.0.21668\\lib/net461/TruBot.Microsoft365.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Microsoft365.Activities.5.4.0.21668\\lib/net461/TruBot.Microsoft365.dll"
+    ],
+    "TruBot.AWS": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.AWS.5.4.0.21668\\lib/net461/TruBot.AWS.dll"
+    ],
+    "TruBot.AWS.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.AWS.Activities.5.4.0.21668\\lib/net461/TruBot.AWS.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.AWS.Activities.5.4.0.21668\\lib/net461/TruBot.AWS.Activities.dll"
+    ],
+    "TruBot.QRCode.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.QRCode.Activities.5.4.0.21668\\lib/net461/TruBot.QRCode.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.QRCode.Activities.5.4.0.21668\\lib/net461/TruBot.QRCode.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.QRCode.Activities.5.4.0.21668\\lib/net461/TruBot.QRCode.dll"
+    ],
+    "TruBot.TruCap.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.TruCap.Activities.5.4.0.21668\\lib/net461/TruBot.TruCap.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.TruCap.Activities.5.4.0.21668\\lib/net461/TruBot.TruCap.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.TruCap.Activities.5.4.0.21668\\lib/net461/TruBot.TruCap.dll"
+    ],
+    "TruBot.Python.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/TruBot.Python.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/TruBot.Python.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/TruBot.Python.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.34.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.35.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.36.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.37.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.38.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.39.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.Python.Activities.5.4.0.21668\\lib/net461/x86/Python.Runtime.dll"
+    ],
+    "TruBot.MicrosoftDynamics365.Activities": [
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.MicrosoftDynamics365.Activities.5.4.0.21668\\lib/net461/TruBot.MicrosoftDynamics365.Activities.Design.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.MicrosoftDynamics365.Activities.5.4.0.21668\\lib/net461/TruBot.MicrosoftDynamics365.Activities.dll",
+      "C:\\Users\\ashis\\AppData\\Local\\TruBot\\Packages\\Installed\\TruBot.MicrosoftDynamics365.Activities.5.4.0.21668\\lib/net461/TruBot.MicrosoftDynamics365.dll"
+    ]
+  }
+}
