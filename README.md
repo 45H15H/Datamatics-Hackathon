@@ -63,7 +63,7 @@ Make the required changes to the script and save it.
 
 1. Open the TruBot Designer.
 2. Click on the `Open Process` button and select the `ProcessInfo.json` file in `SendFakeEmails` folder.
-3. Select `Python Scope` coponent in the workflow and edit the `Python Folder Path` in properties to the path where the `Python Embedded` folder is saved in the repository. Example: `C:\Datamatics-Hackathon\python-3.9.13-embed-win32`
+3. Select `Python Scope` component in the workflow and edit the `Python Folder Path` in properties to the path where the `Python Embedded` folder is saved in the repository. Example: `C:\Datamatics-Hackathon\python-3.9.13-embed-win32`
 4. Double click on the `Python Scope` component and click on the `Import File` button of `Execute Python Script` component and select the `email_dispatcher.py` file.
 5. Save the workflow.
 6. Publish the workflow by clicking on the `Publish` button. Then click on the `Export` button to export the workflow into a zip file.
@@ -89,7 +89,7 @@ This script will read the saved emails in the `SaveIMAPmail` folder and save the
 3. Open the TruBot Designer.
 4. Click on the `Open Process` button and select the `ProcessInfo.json` file in the `FeedbackAnalysis` folder.
 5. Edit the `Get IMAP Mail` component in the workflow. Set the `Email` and `Password` properties to the assumed company email and app password.
-6. In the next `For Each` component, edit the `Save Mails` component and set the `File Path` property to the path where the `SaveIMAPmail` folder is saved in the repository. Format: `<path to the folder> +  Item.Subject + .eml`. Example: "C:\Emails\SaveIMAPmail\" + Item.Subject + ".eml"
+6. In the next `For Each` component, edit the `Save Mails` component and set the `File Path` property to the path where the `SaveIMAPmail` folder is saved in the repository. Format: `<path to the folder> +  Item.Subject + .eml`. Example: "C:\Emails\SaveIMAPmail\\" + Item.Subject + ".eml"
 7. Select `Python Scope` coponent in the workflow and edit the `Python Folder Path` in properties to the path where the `Python Embedded` folder is saved in the repository. Example: `C:\Datamatics-Hackathon\python-3.9.13-embed-win32`
 8. Double click on the `Python Scope` component and click on the `Import File` button of `Execute Python Script` component and select the `process_email.py` file.
 9. Select `Read CSV` component in the workflow and edit the `File Path` property to the path where the `eml_responses.csv` file is saved in the repository. Example: `C:\Emails\eml_responses.csv`
