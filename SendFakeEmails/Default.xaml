@@ -32,7 +32,7 @@
   <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1">
     <Flowchart.StartNode>
       <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_1">
-        <tpa:PythonScope OperationTimeout="{x:Null}" DisplayName="Python Scope" sap2010:WorkflowViewState.IdRef="PythonScope_1" Pause="True" PythonFolderPath="D:\python-3.9.13-embed-win32">
+        <tpa:PythonScope OperationTimeout="{x:Null}" DisplayName="Python Scope" sap2010:WorkflowViewState.IdRef="PythonScope_1" Pause="True">
           <tpa:PythonScope.Body>
             <ActivityAction x:TypeArguments="x:Object">
               <ActivityAction.Argument>
@@ -46,17 +46,22 @@
               </Sequence>
             </ActivityAction>
           </tpa:PythonScope.Body>
+          <tpa:PythonScope.PythonFolderPath>
+            <InArgument x:TypeArguments="x:String">
+              <Literal x:TypeArguments="x:String" Value="" />
+            </InArgument>
+          </tpa:PythonScope.PythonFolderPath>
         </tpa:PythonScope>
       </FlowStep>
     </Flowchart.StartNode>
     <x:Reference>__ReferenceID0</x:Reference>
-    <sads:DebugSymbol.Symbol>dzNEOlxEYXRhbWF0aWNzLUhhY2thdGhvblxTZW5kRmFrZUVtYWlsc1xEZWZhdWx0LnhhbWwGIAM2DwIBASMJMRsCAQIjnwEjvQECAQcpDy4aAgEDLREt2gECAQQtxgEt1wECAQU=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>dzNEOlxEYXRhbWF0aWNzLUhhY2thdGhvblxTZW5kRmFrZUVtYWlsc1xEZWZhdWx0LnhhbWwGIAM7DwIBASMJNhsCAQIzDzM+AgEHKQ8uGgIBAy0RLdoBAgEELcYBLdcBAgEF</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="ExecutePythonScript_1" sap:VirtualizedContainerService.HintSize="200,59" />
       <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="219,151" />
-      <sap2010:ViewStateData Id="PythonScope_1" sap:VirtualizedContainerService.HintSize="230,187">
+      <sap2010:ViewStateData Id="PythonScope_1" sap:VirtualizedContainerService.HintSize="200,52">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
