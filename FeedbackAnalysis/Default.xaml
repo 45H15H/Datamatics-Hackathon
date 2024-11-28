@@ -141,7 +141,6 @@
                                       <Variable x:TypeArguments="x:String" Name="spreadsheetSSID" />
                                     </Sequence.Variables>
                                     <tga:CreateNewSpreadSheet Columns="{x:Null}" Rows="{x:Null}" AuthScopesInvalid="False" DisplayName="Create New SpreadSheet" FileURL="[spreadsheetURL]" sap2010:WorkflowViewState.IdRef="CreateNewSpreadSheet_1" Pause="True" SpreadsheetId="[spreadsheetSSID]" SpreadsheetName="TestSpreadsheet" />
-                                    <tga:AddSheet Columns="{x:Null}" PositionIndex="{x:Null}" Rows="{x:Null}" AuthScopesInvalid="False" DisplayName="Add Sheet" sap2010:WorkflowViewState.IdRef="AddSheet_1" Pause="True" SheetName="NewSheet" SpreadsheetId="[spreadsheetSSID]" />
                                     <tga:WriteCell AuthScopesInvalid="False" Cell="A1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_1" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗗𝗮𝘁𝗲" />
                                     <tga:WriteCell AuthScopesInvalid="False" Cell="B1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_2" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗘𝗺𝗮𝗶𝗹" />
                                     <tga:WriteCell AuthScopesInvalid="False" Cell="C1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_3" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗘𝗺𝗮𝗶𝗹 𝗦𝘂𝗯𝗷𝗲𝗰𝘁" />
@@ -302,7 +301,7 @@
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID5</x:Reference>
     <x:Reference>__ReferenceID6</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -347,7 +346,6 @@
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="CreateNewSpreadSheet_1" sap:VirtualizedContainerService.HintSize="311,60" />
-      <sap2010:ViewStateData Id="AddSheet_1" sap:VirtualizedContainerService.HintSize="311,84" />
       <sap2010:ViewStateData Id="WriteCell_1" sap:VirtualizedContainerService.HintSize="311,137" />
       <sap2010:ViewStateData Id="WriteCell_2" sap:VirtualizedContainerService.HintSize="311,137" />
       <sap2010:ViewStateData Id="WriteCell_3" sap:VirtualizedContainerService.HintSize="311,137" />
@@ -359,8 +357,8 @@
       <sap2010:ViewStateData Id="WriteCell_9" sap:VirtualizedContainerService.HintSize="311,137" />
       <sap2010:ViewStateData Id="WriteCell_10" sap:VirtualizedContainerService.HintSize="311,137" />
       <sap2010:ViewStateData Id="WriteRange_1" sap:VirtualizedContainerService.HintSize="311,137" />
-      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="330,2223" />
-      <sap2010:ViewStateData Id="GoogleSheetApplScope_1" sap:VirtualizedContainerService.HintSize="200,52">
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="330,2099" />
+      <sap2010:ViewStateData Id="GoogleSheetApplScope_1" sap:VirtualizedContainerService.HintSize="411,2185">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -379,7 +377,7 @@
       <sap2010:ViewStateData Id="FetchDataItem_10" sap:VirtualizedContainerService.HintSize="311,65" />
       <sap2010:ViewStateData Id="SendSMTPMail_1" sap:VirtualizedContainerService.HintSize="311,292.5" />
       <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="330,1434.5" />
-      <sap2010:ViewStateData Id="ForEachDataRow_1" sap:VirtualizedContainerService.HintSize="357,1583.5">
+      <sap2010:ViewStateData Id="ForEachDataRow_1" sap:VirtualizedContainerService.HintSize="200,52">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
