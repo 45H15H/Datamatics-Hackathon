@@ -45,9 +45,6 @@ Additionally, install the following software:
    --GEMINI_API_KEY = 'api_key'
    ++GEMINI_API_KEY = '<your API key>'
    ```
-> [!NOTE]  
-> You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/docs/api-key)
-
 
    ```diff
    --SENDER_EMAIL = 'customer@example'
@@ -58,6 +55,9 @@ Additionally, install the following software:
    --APP_PASSWORD = 'password'
    ++APP_PASSWORD = '<your app password>'
    ```
+
+> [!NOTE]  
+> You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/docs/api-key)
 
 > [!NOTE]  
 > If using Gmail, create an App Password [here](https://myaccount.google.com/apppasswords).  
