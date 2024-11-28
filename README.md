@@ -129,6 +129,8 @@ Additionally, install the following software:
 2. **FeedbackAnalysis Bot**:  
    - Extracts responses from emails, saves them in a CSV file (`eml_responses.csv`) and sends the analyzed responses to a Google Sheet and a customer support team email.
 
+Here is the demo video of the project: [Soppy Mails](https://drive.google.com/file/d/1lBYAD-QMUApHTy4JNQQWSoI0-me_tLho/view?usp=sharing)
+
 ---
 
 ## **Team Details**  
