@@ -43,10 +43,10 @@ Additionally, install the following software:
 
    ```diff
    --GEMINI_API_KEY = 'api_key'
-   ++GEMINI_API_KEY = '<your api key>'
+   ++GEMINI_API_KEY = '<your API key>'
    ```
-   > [!NOTE]  
-   > You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/docs/api-key)
+> [!NOTE]  
+> You can get your Gemini API key [here.](https://ai.google.dev/gemini-api/docs/api-key)
 
 
    ```diff
@@ -59,10 +59,10 @@ Additionally, install the following software:
    ++APP_PASSWORD = '<your app password>'
    ```
 
-   > [!NOTE]  
-   > If using Gmail, create an App Password [here](https://myaccount.google.com/apppasswords).  
+> [!NOTE]  
+> If using Gmail, create an App Password [here](https://myaccount.google.com/apppasswords).  
 
-2. Update the recipient email address:  
+2. Update the recipient's email address:  
    ```diff
    --RECIPIENT_EMAIL = 'company@example.com'
    ++RECIPIENT_EMAIL = '<company email address>'
@@ -93,6 +93,8 @@ Additionally, install the following software:
    --output_csv = r'C:\Emails\eml_responses.csv'
    ++output_csv = r'<path to eml_responses.csv>'
    ```
+> [!CAUTION]
+> Don't change the Flask application URL.
 
 3. Configure the **TruBot Designer** workflow:  
    - Edit the `Get IMAP Mail` component in the workflow. Set the `Email` and `Password` properties to the assumed company email and app password.
@@ -103,8 +105,8 @@ Additionally, install the following software:
      C:\Datamatics-Hackathon\python-3.9.13-embed-win32
      ```
    - Import the `process_email.py` script into the `Execute Python Script` component.
-   - Select `Read CSV` component in the workflow and edit the `File Path` property to the path where the `eml_responses.csv` file is saved in the repository. (The path which you chose for CSV file in email_process.py). Example: `C:\Emails\eml_responses.csv`
-   - Select the `GSuite Application Scope` component in the workflow and edit the `User Email`, `User ID`, `User Password` and `Username` properties to the Google Authentication details. Refer to the [documentation](https://docs.datamatics.com/TruBot/Designer/5.4.0/Components/GSuite/GSuiteApplicationScope.htm) for more details.
+   - Select `Read CSV` component in the workflow and edit the `File Path` property to the path where the `eml_responses.csv` file is saved in the repository. (The path that you chose for the CSV file in email_process.py). Example: `C:\Emails\eml_responses.csv`
+   - Select the `GSuite Application Scope` component in the workflow and edit the `User Email`, `User ID`, `User Password` and `Username` properties to the Google Authentication details. Refer to the [documentation](https://docs.datamatics.com/TruBot/Designer/5.4.0/Components/GSuite/GSuiteApplicationScope.htm) for more information.
    - Select the `ForEach DataRow` component in the workflow and edit the `Send SMTP Mail` component. Set the `Email ID` and `Sender Email ID` property to the assumed company email. Set the `Password` property to the app password of company email. Set the `To` property to the email address of the assumed customer support team email. Don't update the `Subject` and `Message Body` properties.
    - Save, publish, and export the workflow as a ZIP file.
 
@@ -125,7 +127,7 @@ Additionally, install the following software:
    - Sends fake emails to the assumed company email address.  
 
 2. **FeedbackAnalysis Bot**:  
-   - Extracts responses from emails, saves them in a CSV file (`eml_responses.csv`), and sends the analyzed responses to a Google Sheet and a customer support team email.
+   - Extracts responses from emails, saves them in a CSV file (`eml_responses.csv`) and sends the analyzed responses to a Google Sheet and a customer support team email.
 
 ---
 
