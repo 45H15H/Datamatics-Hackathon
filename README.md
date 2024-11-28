@@ -7,7 +7,7 @@
 Managing customer feedback manually can be challenging, often leading to delays and errors that strain service teams. With tools like **Datamatics TruBot** and **TruCap+**, this process can be streamlined through automation. These tools facilitate feedback retrieval, sentiment analysis, and data extraction, ensuring faster response times, higher accuracy, and personalized service.  
 
 ### Demo video: [SOPPY-MAILS](https://drive.google.com/file/d/1lBYAD-QMUApHTy4JNQQWSoI0-me_tLho/view?usp=sharing)
-### Presentation: [SOPPY-MAILS]()
+### Presentation: [SOPPY-MAILS](https://www.canva.com/design/DAGXrc0lbAM/lewC5WZi2dPAFPslQR2Hkg/view?utm_content=DAGXrc0lbAM&utm_campaign=designshare&utm_medium=link&utm_source=editor#12)
 ---
 
 ## **Getting Started**  
