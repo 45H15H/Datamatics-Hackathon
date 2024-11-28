@@ -142,4 +142,9 @@ Additionally, install the following software:
 | **Ashish Singh**      | Team Leader: Design and development of the bot using TruBot Designer                        |  
 | **Khushi B Hanumannavar** | Team Member: Managed tasks related to TruCap+                                             |  
 
+Paradiso LMS course completion:
+
+- Datamatics TruBot Designer: [Certificate](https://drive.google.com/file/d/1lwG8KamWXB2-Jvq2g8CTw7oEKeJaeFfE/view?usp=sharing)
+- TruCap+ Certification: [Certificate](https://drive.google.com/file/d/1yYGAlTr5eOqDEaX1dRbVdVzge2Uk9MK9/view?usp=sharing)
+
 ---
