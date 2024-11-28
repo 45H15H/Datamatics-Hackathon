@@ -1,7 +1,7 @@
 
 ---
 
-# **SOPPY-MAIL**  
+# **SOPPY-MAILS**  
 **Automated Customer Feedback Management**
 
 Managing customer feedback manually can be challenging, often leading to delays and errors that strain service teams. With tools like **Datamatics TruBot** and **TruCap+**, this process can be streamlined through automation. These tools facilitate feedback retrieval, sentiment analysis, and data extraction, ensuring faster response times, higher accuracy, and personalized service.  
