@@ -128,8 +128,12 @@ Additionally, install the following software:
 1. **SendFakeEmails Bot**:  
    - Sends fake emails to the assumed company email address.  
 
+   ![sample email](images/sample_email.png)
+
 2. **FeedbackAnalysis Bot**:  
    - Extracts responses from emails, saves them in a CSV file (`eml_responses.csv`) and sends the analyzed responses to a Google Sheet and a customer support team email.
+
+   ![sample summary email](images/sample_summary_email.png)
 
 ---
 
