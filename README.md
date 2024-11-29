@@ -84,30 +84,16 @@ Additionally, install the following software:
 
 ### **Step 2: Automating Feedback Analysis (FeedbackAnalysis Bot)**  
 
-1. Create a folder to store customer emails (e.g., `C:\Datamatics-Hackathon\Emails`). Inside it, create a subfolder named `SaveIMAPmail`.  
-2. Update the `process_email.py` script:  
-   ```diff
-   --folder_path = r'C:\Emails\SaveIMAPmail'
-   ++folder_path = r'<path to SaveIMAPmail>'
-   ```
 
-   ```diff
-   --output_csv = r'C:\Emails\eml_responses.csv'
-   ++output_csv = r'<path to eml_responses.csv>'
-   ```
-> [!CAUTION]
-> Don't change the Flask application URL.
 
-3. Configure the **TruBot Designer** workflow:  
+1. Configure the **TruBot Designer** workflow:  
    - Edit the `Get IMAP Mail` component in the workflow. Set the `Email` and `Password` properties to the assumed company email and app password.
-   - In the next `For Each` component, edit the `Save Mails` component and set the `File Path` property to the path where the `SaveIMAPmail` folder is saved in the repository. Format: `<path to the folder> +  Item.Subject + .eml`. Example: "C:\Emails\SaveIMAPmail\\" + Item.Subject + ".eml"
    - Edit the `Python Folder Path` property in the `Python Scope` component to point to the embedded Python folder in the repository.  
      Example:  
      ```plaintext
      C:\Datamatics-Hackathon\python-3.9.13-embed-win32
      ```
    - Import the `process_email.py` script into the `Execute Python Script` component.
-   - Select `Read CSV` component in the workflow and edit the `File Path` property to the path where the `eml_responses.csv` file is saved in the repository. (The path that you chose for the CSV file in email_process.py). Example: `C:\Emails\eml_responses.csv`
    - Select the `GSuite Application Scope` component in the workflow and edit the `User Email`, `User ID`, `User Password` and `Username` properties to the Google Authentication details. Refer to the [documentation](https://docs.datamatics.com/TruBot/Designer/5.4.0/Components/GSuite/GSuiteApplicationScope.htm) for more information.
    - Select the `ForEach DataRow` component in the workflow and edit the `Send SMTP Mail` component. Set the `Email ID` and `Sender Email ID` property to the assumed company email. Set the `Password` property to the app password of company email. Set the `To` property to the email address of the assumed customer support team email. Don't update the `Subject` and `Message Body` properties.
    - Save, publish, and export the workflow as a ZIP file.
