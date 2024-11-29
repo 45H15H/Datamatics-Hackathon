@@ -60,7 +60,7 @@ def process_eml_files(folder_path, url, output_csv):
 url = 'https://extract-details.onrender.com'
 
 # Path to the folder containing .eml files
-folder_path = r'C:\Emails\SaveIMAPmail'
+folder_path = r'C:\Emails\SaveIMAPmails'
 
 # Path to the output CSV file
 output_csv = r'C:\Emails\eml_responses.csv'
