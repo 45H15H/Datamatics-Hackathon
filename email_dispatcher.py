@@ -28,62 +28,62 @@ def generate_feedback(gemini_model):
     'very_satisfied': """Generate an enthusiastic customer feedback email about a recent purchase. 
         Mention specific product features you loved, excellent delivery time, and outstanding customer service experience.
         Include details about product quality and why you would recommend it. Fill in fake details. 
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
         
     'satisfied': """Generate a positive customer feedback email that highlights good product experience.
         Mention what met your expectations about the product, delivery, and overall service.
         Include one minor suggestion for improvement. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
         
     'neutral': """Generate a balanced customer feedback email about your purchase.
         Discuss both positive aspects (like product features or delivery) and areas needing improvement.
         Be specific about what worked and what didn't. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
         
     'dissatisfied': """Generate a professional but critical customer feedback email.
         Address specific issues with the product, delivery delays, or service problems.
         Clearly state what went wrong and what resolution you expect. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
         
     'product_issue': """Generate a detailed customer complaint email about product quality issues.
         Describe specific problems encountered, when they started, and their impact.
         Request specific resolution (replacement, refund, or repair) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'delivery_issue': """Generate a customer complaint email about delivery problems.
         Describe the delivery delay, missing items, or damaged package.
         Request specific resolution (replacement, refund, or compensation) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'service_issue': """Generate a customer complaint email about poor service experience.
         Describe the issue with customer service representative, response time, or lack of resolution.
         Request specific resolution (apology, compensation, or escalation) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'payment_issue': """Generate a customer complaint email about payment problems.
         Describe the payment error, double charge, or refund delay.
         Request specific resolution (refund, confirmation, or investigation) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'return_issue': """Generate a customer complaint email about return process issues.
         Describe the return rejection, refund delay, or return shipping problem.
         Request specific resolution (refund, replacement, or return label) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'website_issue': """Generate a customer complaint email about website usability issues.
         Describe the problem with navigation, search, or checkout process.
         Request specific resolution (fix, refund, or discount) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'app_issue': """Generate a customer complaint email about mobile app functionality issues.
         Describe the app crash, login error, or payment failure.
         Request specific resolution (update, refund, or support) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line.""",
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line.""",
 
     'other_issue': """Generate a customer complaint email about other issues not listed.
         Describe the problem encountered, its impact, and your expectations.
         Request specific resolution (refund, replacement, or compensation) and timeline expectations. Fill in fake details.
-        Don't use placeholders. Write in plain text, don't use formating, only use newline. Don't wrirte the subject line."""
+        Don't use placeholders. Write in plain text, don't use formating, **only use newline characters (\n) to beautify the email**. Don't wrirte the subject line."""
 
 }
     
@@ -121,7 +121,7 @@ def send_bulk_feedback_emails(sender_email, app_password, recipient_email, num_e
                 
                 current_sender = fake_senders[i % len(fake_senders)]
                 # Generate feedback using Gemini
-                feedback_message = generate_feedback(model)
+                feedback_message = generate_feedback(model)                
                 
                 # Create email message
                 msg = MIMEMultipart('alternative')
@@ -130,7 +130,8 @@ def send_bulk_feedback_emails(sender_email, app_password, recipient_email, num_e
                 msg['To'] = recipient_email
 
                 text_part = MIMEText(feedback_message, 'plain')
-                html_part = MIMEText(f'<html><body><p>{feedback_message}</p></body></html>', 'html')
+                html_feedback_message = feedback_message.replace("\n", "<br>")
+                html_part = MIMEText(f'<html><body><p>{html_feedback_message}</p></body></html>', 'html')                
                 msg.attach(text_part)
                 msg.attach(html_part)
 
