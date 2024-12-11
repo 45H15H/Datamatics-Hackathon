@@ -28,11 +28,24 @@ def process_eml_files(folder_path, url, output_csv):
     output_csv (str): The path to the output CSV file.
     """
     results = []
+    skipped_files = []
+
     for filename in os.listdir(folder_path):
         if filename.endswith('.eml'):
             file_path = os.path.join(folder_path, filename)
-            response = upload_eml_file(url, file_path)
-            results.append(response)
+            try:
+                response = upload_eml_file(url, file_path)
+                
+                # Skip if response contains error field
+                if 'error' in response:
+                    skipped_files.append(filename)
+                    continue
+                
+                results.append(response)
+                
+            except Exception as e:
+                skipped_files.append(filename)
+                continue
 
     if results:
         # Define custom order for headers
