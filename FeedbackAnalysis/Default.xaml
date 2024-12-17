@@ -9,13 +9,19 @@
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
  xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
  xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:ss="clr-namespace:System.Security;assembly=mscorlib"
  xmlns:tca="clr-namespace:TruBot.Core.Activities;assembly=TruBot.Core.Activities"
  xmlns:tca1="clr-namespace:TruBot.CSV.Activities;assembly=TruBot.Excel.Activities"
+ xmlns:tca2="clr-namespace:TruBot.Cryptography.Activities;assembly=TruBot.Cryptography.Activities"
  xmlns:tea="clr-namespace:TruBot.Email.Activities;assembly=TruBot.Email.Activities"
  xmlns:tg="clr-namespace:TruBot.GoogleApp;assembly=TruBot.GoogleApp"
  xmlns:tga="clr-namespace:TruBot.GoogleApp.Activities;assembly=TruBot.GoogleApp.Activities"
  xmlns:tp="clr-namespace:TruBot.Python;assembly=TruBot.Python"
  xmlns:tpa="clr-namespace:TruBot.Python.Activities;assembly=TruBot.Python.Activities"
+ xmlns:tt="clr-namespace:TruBot.TruCap;assembly=TruBot.TruCap"
+ xmlns:tta="clr-namespace:TruBot.TruCap.Activities;assembly=TruBot.TruCap.Activities"
+ xmlns:ttm="clr-namespace:TruBot.TruCap.Models;assembly=TruBot.TruCap"
+ xmlns:tts="clr-namespace:TruBot.TruCap.Services;assembly=TruBot.TruCap"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -62,242 +68,311 @@
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="var_imapoutput" />
       <Variable x:TypeArguments="sd:DataTable" Name="dtResponses" />
       <Variable x:TypeArguments="x:Int32" Name="element_index" />
+      <Variable x:TypeArguments="ss:SecureString" Name="pwd" />
     </Flowchart.Variables>
     <Flowchart.StartNode>
       <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_8">
         <tca:CreateDirectory DirectoryPath="C:\Emails\SaveIMAPmails" DisplayName="Create Directory" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Pause="True" />
         <FlowStep.Next>
-          <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_6">
-            <tea:GetImapMail Count="10" DeleteOnRead="False" DisplayName="Get IMAP Mail" EnableSSL="True" sap2010:WorkflowViewState.IdRef="GetImapMail_1" MailFolder="Inbox" MarkAsRead="False" MessageList="[var_imapoutput]" OnlyUnread="True" Pause="True" Port="993" SecureConnection="Auto" Server="imap.gmail.com" TimeoutMS="30000">
-              <tea:GetImapMail.Email>
-                <InArgument x:TypeArguments="x:String">
-                  <Literal x:TypeArguments="x:String" Value="" />
-                </InArgument>
-              </tea:GetImapMail.Email>
-              <tea:GetImapMail.Password>
-                <InArgument x:TypeArguments="x:String">
-                  <Literal x:TypeArguments="x:String" Value="" />
-                </InArgument>
-              </tea:GetImapMail.Password>
-            </tea:GetImapMail>
-            <FlowStep.Next>
-              <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_5">
-                <tca:ForEach x:TypeArguments="snm:MailMessage" ElementIndex="{x:Null}" DisplayName="For Each" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Pause="True" Values="[var_imapoutput]">
-                  <tca:ForEach.Body>
-                    <ActivityAction x:TypeArguments="snm:MailMessage">
-                      <ActivityAction.Argument>
-                        <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="Item" />
-                      </ActivityAction.Argument>
-                      <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_1">
-                        <Sequence.Variables>
-                          <Variable x:TypeArguments="x:String" Name="updated_subject" />
-                        </Sequence.Variables>
-                        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[&quot;Subject: &quot; + Item.Subject]" />
-                        <tca:Replace DisplayName="Replace" IsBuilderTabModified="False" Pause="True" RegexOption="IgnoreCase, Compiled" ReplaceWith="-" Result="[updated_subject]" SearchIn="[Item.Subject]" ToSearch="\W" sap2010:WorkflowViewState.IdRef="Replace_1" />
-                        <tea:SaveMails Attachments="{x:Null}" DisplayName="Save Mails" FilePath="[&quot;C:\Emails\SaveIMAPmails\&quot; + updated_subject + &quot;.eml&quot;]" sap2010:WorkflowViewState.IdRef="SaveMails_1" MailMessage="[Item]" Pause="True" />
-                      </Sequence>
-                    </ActivityAction>
-                  </tca:ForEach.Body>
-                </tca:ForEach>
-                <FlowStep.Next>
-                  <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_4">
-                    <tpa:PythonScope OperationTimeout="{x:Null}" DisplayName="Python Scope" sap2010:WorkflowViewState.IdRef="PythonScope_1" Pause="True">
-                      <tpa:PythonScope.Body>
-                        <ActivityAction x:TypeArguments="x:Object">
-                          <ActivityAction.Argument>
-                            <DelegateInArgument x:TypeArguments="x:Object" Name="PythonEngineSessionProperty" />
-                          </ActivityAction.Argument>
-                          <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_2">
-                            <Sequence.Variables>
-                              <Variable x:TypeArguments="tp:PythonObject" Name="pythonMethods" />
-                              <Variable x:TypeArguments="x:String" Name="variable1" />
-                            </Sequence.Variables>
-                            <tpa:ExecutePythonScript FilePath="{x:Null}" DisplayName="desExecute Python Script" sap2010:WorkflowViewState.IdRef="ExecutePythonScript_1" Pause="True" PythonScript="import os&#xA;import requests&#xA;import csv&#xA;&#xA;def upload_eml_file(url, file_path):&#xA;    &quot;&quot;&quot;&#xA;    Uploads an .eml file to the specified URL and returns the server response.&#xA;&#xA;    Parameters:&#xA;    url (str): The URL of the Flask application.&#xA;    file_path (str): The path to the .eml file.&#xA;&#xA;    Returns:&#xA;    dict: The JSON response from the server.&#xA;    &quot;&quot;&quot;&#xA;    with open(file_path, 'rb') as file:&#xA;        files = {'file': file}&#xA;        response = requests.post(url, files=files)&#xA;    return response.json()&#xA;&#xA;def process_eml_files(folder_path, url, output_csv):&#xA;    &quot;&quot;&quot;&#xA;    Processes all .eml files in the specified folder, sends them to the URL, and stores the responses in a CSV file.&#xA;&#xA;    Parameters:&#xA;    folder_path (str): The path to the folder containing .eml files.&#xA;    url (str): The URL of the Flask application.&#xA;    output_csv (str): The path to the output CSV file.&#xA;    &quot;&quot;&quot;&#xA;    results = []&#xA;    for filename in os.listdir(folder_path):&#xA;        if filename.endswith('.eml'):&#xA;            file_path = os.path.join(folder_path, filename)&#xA;            response = upload_eml_file(url, file_path)&#xA;            results.append(response)&#xA;&#xA;    if results:&#xA;        # Define custom order for headers&#xA;        ordered_headers = [&#xA;            'date',&#xA;            'customer_email',&#xA;            'subject',&#xA;            'customer_name',&#xA;            'order_id',&#xA;            'sentiment',&#xA;            'score',&#xA;            'feedback_category',&#xA;            'feedback_summary',&#xA;            'action_needed'&#xA;        ]&#xA;        &#xA;        # Write the results to a CSV file with pipe delimiter&#xA;        with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:&#xA;            writer = csv.DictWriter(csvfile, fieldnames=ordered_headers, delimiter='|')&#xA;            writer.writeheader()&#xA;            for result in results:&#xA;                writer.writerow(result)&#xA;&#xA;# Define the URL of the Flask application&#xA;url = 'https://extract-details.onrender.com'&#xA;&#xA;# Path to the folder containing .eml files&#xA;folder_path = r'C:\Emails\SaveIMAPmail'&#xA;&#xA;# Path to the output CSV file&#xA;output_csv = r'C:\Emails\eml_responses.csv'&#xA;&#xA;# Process the .eml files and store the responses in a CSV file&#xA;process_eml_files(folder_path, url, output_csv)" Result="[pythonMethods]" />
-                          </Sequence>
-                        </ActivityAction>
-                      </tpa:PythonScope.Body>
-                      <tpa:PythonScope.PythonFolderPath>
-                        <InArgument x:TypeArguments="x:String">
-                          <Literal x:TypeArguments="x:String" Value="" />
-                        </InArgument>
-                      </tpa:PythonScope.PythonFolderPath>
-                    </tpa:PythonScope>
-                    <FlowStep.Next>
-                      <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_3">
-                        <tca:CreateDataTable DataTable="[dtResponses]" DataTableWizard="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;date&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;customer_email&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;subject&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;customer_name&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;order_id&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;sentiment&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;score&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;feedback_category&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;feedback_summary&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;action_needed&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" DisplayName="Create DataTable" sap2010:WorkflowViewState.IdRef="CreateDataTable_1" Pause="True" />
-                        <FlowStep.Next>
-                          <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_2">
-                            <tca1:ReadCSV Encoding="{x:Null}" IgnoreQuotes="{x:Null}" DataTable="[dtResponses]" Delimiter="Pipe" DisplayName="Read CSV" FilePath="C:\Emails\eml_responses.csv" sap2010:WorkflowViewState.IdRef="ReadCSV_1" Pause="True" />
-                            <FlowStep.Next>
-                              <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_7">
-                                <tga:GoogleSheetApplScope ApiKey="{x:Null}" KeyPath="{x:Null}" Password="{x:Null}" ServiceAccountEmail="{x:Null}" AuthenticationType="OAuthClientID" DisplayName="GSuite Application Scope" HasDomainWideAccesss="False" sap2010:WorkflowViewState.IdRef="GoogleSheetApplScope_1" KeyType="JSON" Pause="True" Services="Sheets">
-                                  <tga:GoogleSheetApplScope.Body>
-                                    <ActivityAction x:TypeArguments="tg:SimpleObjectContainer">
-                                      <ActivityAction.Argument>
-                                        <DelegateInArgument x:TypeArguments="tg:SimpleObjectContainer" Name="GoogleApplicationScope" />
-                                      </ActivityAction.Argument>
-                                      <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_4">
-                                        <Sequence.Variables>
-                                          <Variable x:TypeArguments="x:String" Name="spreadsheetURL" />
-                                          <Variable x:TypeArguments="x:String" Name="spreadsheetSSID" />
-                                        </Sequence.Variables>
-                                        <tga:CreateNewSpreadSheet Columns="{x:Null}" Rows="{x:Null}" AuthScopesInvalid="False" DisplayName="Create New SpreadSheet" FileURL="[spreadsheetURL]" sap2010:WorkflowViewState.IdRef="CreateNewSpreadSheet_1" Pause="True" SpreadsheetId="[spreadsheetSSID]" SpreadsheetName="TestSpreadsheet" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="A1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_1" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗗𝗮𝘁𝗲" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="B1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_2" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗘𝗺𝗮𝗶𝗹" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="C1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_3" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗘𝗺𝗮𝗶𝗹 𝗦𝘂𝗯𝗷𝗲𝗰𝘁" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="D1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_4" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗡𝗮𝗺𝗲" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="E1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_5" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗢𝗿𝗱𝗲𝗿 𝗜𝗗" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="F1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_6" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗦𝗲𝗻𝘁𝗶𝗺𝗲𝗻𝘁" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="G1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_7" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗦𝗲𝗻𝘁𝗶𝗺𝗲𝗻𝘁 𝗦𝗰𝗼𝗿𝗲" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="H1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_8" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗖𝗮𝘁𝗲𝗴𝗼𝗿𝘆" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="I1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_9" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗦𝘂𝗺𝗺𝗮𝗿𝘆" />
-                                        <tga:WriteCell AuthScopesInvalid="False" Cell="J1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_10" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗔𝗰𝘁𝗶𝗼𝗻 𝗡𝗲𝗲𝗱𝗲𝗱" />
-                                        <tga:WriteRange Result="{x:Null}" AuthScopesInvalid="False" DataTable="[dtResponses]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="WriteRange_1" IncludeHeaders="False" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" StartCell="A2" />
-                                      </Sequence>
-                                    </ActivityAction>
-                                  </tga:GoogleSheetApplScope.Body>
-                                  <tga:GoogleSheetApplScope.UserEmail>
-                                    <InArgument x:TypeArguments="x:String">
-                                      <Literal x:TypeArguments="x:String" Value="" />
-                                    </InArgument>
-                                  </tga:GoogleSheetApplScope.UserEmail>
-                                  <tga:GoogleSheetApplScope.UserID>
-                                    <InArgument x:TypeArguments="x:String">
-                                      <Literal x:TypeArguments="x:String" Value="" />
-                                    </InArgument>
-                                  </tga:GoogleSheetApplScope.UserID>
-                                  <tga:GoogleSheetApplScope.UserPassword>
-                                    <InArgument x:TypeArguments="x:String">
-                                      <Literal x:TypeArguments="x:String" Value="" />
-                                    </InArgument>
-                                  </tga:GoogleSheetApplScope.UserPassword>
-                                  <tga:GoogleSheetApplScope.Username>
-                                    <InArgument x:TypeArguments="x:String">
-                                      <Literal x:TypeArguments="x:String" Value="" />
-                                    </InArgument>
-                                  </tga:GoogleSheetApplScope.Username>
-                                </tga:GoogleSheetApplScope>
-                                <FlowStep.Next>
-                                  <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_1">
-                                    <tca:ForEachDataRow DataTable="[dtResponses]" DisplayName="ForEach DataRow" ElementIndex="[element_index]" sap2010:WorkflowViewState.IdRef="ForEachDataRow_1" Pause="True">
-                                      <tca:ForEachDataRow.Body>
-                                        <ActivityAction x:TypeArguments="sd:DataRow">
-                                          <ActivityAction.Argument>
-                                            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
-                                          </ActivityAction.Argument>
-                                          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_3">
-                                            <Sequence.Variables>
-                                              <Variable x:TypeArguments="tca:Universal" Name="customer_name" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="feedback_category" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="order_id" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="score" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="sentiment" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="customer_email" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="subject" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="_date" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="feedback_summary" />
-                                              <Variable x:TypeArguments="tca:Universal" Name="action_needed" />
-                                              <Variable x:TypeArguments="x:String" Name="filename" />
-                                            </Sequence.Variables>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="customer_name" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_1" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[customer_name]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="feedback_category" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_2" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[feedback_category]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="order_id" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_3" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[order_id]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="score" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_4" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[score]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="sentiment" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_5" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[sentiment]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="customer_email" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_6" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[customer_email]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="subject" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_7" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[subject]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="date" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_8" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[_date]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="feedback_summary" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_9" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[feedback_summary]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="action_needed" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_10" Pause="True">
-                                              <tca:FetchDataItem.Result>
-                                                <OutArgument x:TypeArguments="tca:Universal">[action_needed]</OutArgument>
-                                              </tca:FetchDataItem.Result>
-                                            </tca:FetchDataItem>
-                                            <tea:SendSMTPMail Attachments="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" Result="{x:Null}" Body="[&quot;Dear Customer Service Team,&quot; + Environment.NewLine + Environment.NewLine + &#xA;&quot;A new customer feedback has been received. Below is the summary.&quot; + Environment.NewLine + Environment.NewLine + &#xA;&quot;Feedback Details:&quot; + Environment.NewLine + &#xA;&quot;𝗦𝗲𝗻𝘁𝗶𝗺𝗲𝗻𝘁 𝗦𝗰𝗼𝗿𝗲: &quot; + score + &quot; (&quot; + sentiment + &quot;)&quot; + Environment.NewLine + &#xA;&quot;𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗖𝗮𝘁𝗲𝗴𝗼𝗿𝘆: &quot; + feedback_category + Environment.NewLine + &#xA;&quot;𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗡𝗮𝗺𝗲: &quot; + customer_name + Environment.NewLine + &#xA;&quot;𝗗𝗮𝘁𝗲: &quot; + _date + Environment.NewLine + Environment.NewLine + &#xA;&quot;𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗦𝘂𝗺𝗺𝗮𝗿𝘆: &quot; + feedback_summary + Environment.NewLine + Environment.NewLine + &#xA;&quot;𝗔𝗰𝘁𝗶𝗼𝗻 𝗡𝗲𝗲𝗱𝗲𝗱: &quot; + action_needed + Environment.NewLine + Environment.NewLine + &#xA;&quot;𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗘𝗺𝗮𝗶𝗹: &quot; + customer_email + Environment.NewLine + &#xA;&quot;𝗢𝗿𝗱𝗲𝗿 𝗜𝗗: &quot; + order_id + Environment.NewLine + Environment.NewLine + &#xA;&quot;Best Regards,&quot; + Environment.NewLine + &#xA;&quot;Customer Feedback System&quot;]" DisplayName="Send SMTP Mail" EnableSSL="True" HtmlFlag="False" sap2010:WorkflowViewState.IdRef="SendSMTPMail_1" Pause="True" Port="587" SecureConnection="Auto" SenderName="Customer Feedback System" Server="smtp.gmail.com" Subject="[subject]" TimeoutMS="30000">
-                                              <tea:SendSMTPMail.Email>
-                                                <InArgument x:TypeArguments="x:String">
-                                                  <Literal x:TypeArguments="x:String" Value="" />
-                                                </InArgument>
-                                              </tea:SendSMTPMail.Email>
-                                              <tea:SendSMTPMail.Files>
-                                                <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
-                                              </tea:SendSMTPMail.Files>
-                                              <tea:SendSMTPMail.From>
-                                                <InArgument x:TypeArguments="x:String">
-                                                  <Literal x:TypeArguments="x:String" Value="" />
-                                                </InArgument>
-                                              </tea:SendSMTPMail.From>
-                                              <tea:SendSMTPMail.Password>
-                                                <InArgument x:TypeArguments="x:String">
-                                                  <Literal x:TypeArguments="x:String" Value="" />
-                                                </InArgument>
-                                              </tea:SendSMTPMail.Password>
-                                              <tea:SendSMTPMail.To>
-                                                <InArgument x:TypeArguments="x:String">
-                                                  <Literal x:TypeArguments="x:String" Value="" />
-                                                </InArgument>
-                                              </tea:SendSMTPMail.To>
-                                              <tea:SendSMTPMail._Attachments>
-                                                <scg:List x:TypeArguments="x:String" Capacity="0" />
-                                              </tea:SendSMTPMail._Attachments>
-                                            </tea:SendSMTPMail>
-                                          </Sequence>
-                                        </ActivityAction>
-                                      </tca:ForEachDataRow.Body>
-                                    </tca:ForEachDataRow>
-                                  </FlowStep>
-                                </FlowStep.Next>
-                              </FlowStep>
-                            </FlowStep.Next>
-                          </FlowStep>
-                        </FlowStep.Next>
-                      </FlowStep>
-                    </FlowStep.Next>
-                  </FlowStep>
-                </FlowStep.Next>
-              </FlowStep>
-            </FlowStep.Next>
+          <FlowStep x:Name="__ReferenceID8">
+            <tca:CreateDirectory DirectoryPath="C:\Emails\SaveAttachment" DisplayName="Create Directory" Pause="True" sap2010:WorkflowViewState.IdRef="CreateDirectory_2" />
+            <sap2010:WorkflowViewState.IdRef>FlowStep_9</sap2010:WorkflowViewState.IdRef>
           </FlowStep>
         </FlowStep.Next>
       </FlowStep>
     </Flowchart.StartNode>
-    <x:Reference>__ReferenceID0</x:Reference>
+    <FlowStep sap2010:WorkflowViewState.IdRef="FlowStep_6">
+      <tea:GetImapMail Count="10" DeleteOnRead="False" DisplayName="Get IMAP Mail" EnableSSL="True" sap2010:WorkflowViewState.IdRef="GetImapMail_1" MailFolder="Inbox" MarkAsRead="False" MessageList="[var_imapoutput]" OnlyUnread="True" Pause="True" Port="993" SecureConnection="Auto" Server="imap.gmail.com" TimeoutMS="30000">
+        <tea:GetImapMail.Email>
+          <InArgument x:TypeArguments="x:String">
+            <Literal x:TypeArguments="x:String" Value="" />
+          </InArgument>
+        </tea:GetImapMail.Email>
+        <tea:GetImapMail.Password>
+          <InArgument x:TypeArguments="x:String">
+            <Literal x:TypeArguments="x:String" Value="" />
+          </InArgument>
+        </tea:GetImapMail.Password>
+      </tea:GetImapMail>
+      <FlowStep.Next>
+        <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_5">
+          <tca:ForEach x:TypeArguments="snm:MailMessage" ElementIndex="{x:Null}" DisplayName="For Each" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Pause="True" Values="[var_imapoutput]">
+            <tca:ForEach.Body>
+              <ActivityAction x:TypeArguments="snm:MailMessage">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="Item" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_1">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="x:String" Name="updated_subject" />
+                  </Sequence.Variables>
+                  <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[&quot;Subject: &quot; + Item.Subject]" />
+                  <tca:Replace DisplayName="Replace" sap2010:WorkflowViewState.IdRef="Replace_1" IsBuilderTabModified="False" Pause="True" RegexOption="IgnoreCase, Compiled" ReplaceWith="-" Result="[updated_subject]" SearchIn="[Item.Subject]" ToSearch="\W" />
+                  <tea:SaveMails Attachments="{x:Null}" DisplayName="Save Mails" FilePath="[&quot;C:\Emails\SaveIMAPmails\&quot; + updated_subject + &quot;.eml&quot;]" sap2010:WorkflowViewState.IdRef="SaveMails_1" MailMessage="[Item]" Pause="True" />
+                  <If Condition="[Item.Attachments.Count&gt;0]">
+                    <If.Then>
+                      <Sequence>
+                        <tea:SaveAttachments Output="{x:Null}" DisplayName="Save Attachments" Duplicate="False" FolderPath="C:\Emails\SaveAttachment" MailMessage="[Item]" Pause="True" sap2010:WorkflowViewState.IdRef="SaveAttachments_1" />
+                        <sap2010:WorkflowViewState.IdRef>Sequence_5</sap2010:WorkflowViewState.IdRef>
+                      </Sequence>
+                    </If.Then>
+                    <sap2010:WorkflowViewState.IdRef>If_1</sap2010:WorkflowViewState.IdRef>
+                  </If>
+                </Sequence>
+              </ActivityAction>
+            </tca:ForEach.Body>
+          </tca:ForEach>
+          <FlowStep.Next>
+            <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_4">
+              <tpa:PythonScope OperationTimeout="{x:Null}" DisplayName="Python Scope" sap2010:WorkflowViewState.IdRef="PythonScope_1" Pause="True">
+                <tpa:PythonScope.Body>
+                  <ActivityAction x:TypeArguments="x:Object">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="x:Object" Name="PythonEngineSessionProperty" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="tp:PythonObject" Name="pythonMethods" />
+                        <Variable x:TypeArguments="x:String" Name="variable1" />
+                      </Sequence.Variables>
+                      <tpa:ExecutePythonScript FilePath="{x:Null}" DisplayName="desExecute Python Script" sap2010:WorkflowViewState.IdRef="ExecutePythonScript_1" Pause="True" PythonScript="import os&#xA;import requests&#xA;import csv&#xA;&#xA;def upload_eml_file(url, file_path):&#xA;    &quot;&quot;&quot;&#xA;    Uploads an .eml file to the specified URL and returns the server response.&#xA;&#xA;    Parameters:&#xA;    url (str): The URL of the Flask application.&#xA;    file_path (str): The path to the .eml file.&#xA;&#xA;    Returns:&#xA;    dict: The JSON response from the server.&#xA;    &quot;&quot;&quot;&#xA;    with open(file_path, 'rb') as file:&#xA;        files = {'file': file}&#xA;        response = requests.post(url, files=files)&#xA;    return response.json()&#xA;&#xA;def process_eml_files(folder_path, url, output_csv):&#xA;    &quot;&quot;&quot;&#xA;    Processes all .eml files in the specified folder, sends them to the URL, and stores the responses in a CSV file.&#xA;&#xA;    Parameters:&#xA;    folder_path (str): The path to the folder containing .eml files.&#xA;    url (str): The URL of the Flask application.&#xA;    output_csv (str): The path to the output CSV file.&#xA;    &quot;&quot;&quot;&#xA;    results = []&#xA;    for filename in os.listdir(folder_path):&#xA;        if filename.endswith('.eml'):&#xA;            file_path = os.path.join(folder_path, filename)&#xA;            response = upload_eml_file(url, file_path)&#xA;            results.append(response)&#xA;&#xA;    if results:&#xA;        # Define custom order for headers&#xA;        ordered_headers = [&#xA;            'date',&#xA;            'customer_email',&#xA;            'subject',&#xA;            'customer_name',&#xA;            'order_id',&#xA;            'sentiment',&#xA;            'score',&#xA;            'feedback_category',&#xA;            'feedback_summary',&#xA;            'action_needed'&#xA;        ]&#xA;        &#xA;        # Write the results to a CSV file with pipe delimiter&#xA;        with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:&#xA;            writer = csv.DictWriter(csvfile, fieldnames=ordered_headers, delimiter='|')&#xA;            writer.writeheader()&#xA;            for result in results:&#xA;                writer.writerow(result)&#xA;&#xA;# Define the URL of the Flask application&#xA;url = 'https://extract-details.onrender.com'&#xA;&#xA;# Path to the folder containing .eml files&#xA;folder_path = r'C:\Emails\SaveIMAPmail'&#xA;&#xA;# Path to the output CSV file&#xA;output_csv = r'C:\Emails\eml_responses.csv'&#xA;&#xA;# Process the .eml files and store the responses in a CSV file&#xA;process_eml_files(folder_path, url, output_csv)" Result="[pythonMethods]" />
+                    </Sequence>
+                  </ActivityAction>
+                </tpa:PythonScope.Body>
+                <tpa:PythonScope.PythonFolderPath>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </tpa:PythonScope.PythonFolderPath>
+              </tpa:PythonScope>
+              <FlowStep.Next>
+                <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_3">
+                  <tca:CreateDataTable DataTable="[dtResponses]" DataTableWizard="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;date&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;customer_email&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;subject&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;customer_name&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;order_id&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;sentiment&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;score&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;feedback_category&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;feedback_summary&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;action_needed&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" DisplayName="Create DataTable" sap2010:WorkflowViewState.IdRef="CreateDataTable_1" Pause="True" />
+                  <FlowStep.Next>
+                    <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_2">
+                      <tca1:ReadCSV Encoding="{x:Null}" IgnoreQuotes="{x:Null}" DataTable="[dtResponses]" Delimiter="Pipe" DisplayName="Read CSV" FilePath="C:\Emails\eml_responses.csv" sap2010:WorkflowViewState.IdRef="ReadCSV_1" Pause="True" />
+                      <FlowStep.Next>
+                        <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_7">
+                          <tga:GoogleSheetApplScope ApiKey="{x:Null}" KeyPath="{x:Null}" Password="{x:Null}" ServiceAccountEmail="{x:Null}" AuthenticationType="OAuthClientID" DisplayName="GSuite Application Scope" HasDomainWideAccesss="False" sap2010:WorkflowViewState.IdRef="GoogleSheetApplScope_1" KeyType="JSON" Pause="True" Services="Sheets">
+                            <tga:GoogleSheetApplScope.Body>
+                              <ActivityAction x:TypeArguments="tg:SimpleObjectContainer">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="tg:SimpleObjectContainer" Name="GoogleApplicationScope" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                                  <Sequence.Variables>
+                                    <Variable x:TypeArguments="x:String" Name="spreadsheetURL" />
+                                    <Variable x:TypeArguments="x:String" Name="spreadsheetSSID" />
+                                  </Sequence.Variables>
+                                  <tga:CreateNewSpreadSheet Columns="{x:Null}" Rows="{x:Null}" AuthScopesInvalid="False" DisplayName="Create New SpreadSheet" FileURL="[spreadsheetURL]" sap2010:WorkflowViewState.IdRef="CreateNewSpreadSheet_1" Pause="True" SpreadsheetId="[spreadsheetSSID]" SpreadsheetName="TestSpreadsheet" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="A1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_1" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗗𝗮𝘁𝗲" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="B1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_2" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗘𝗺𝗮𝗶𝗹" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="C1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_3" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗘𝗺𝗮𝗶𝗹 𝗦𝘂𝗯𝗷𝗲𝗰𝘁" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="D1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_4" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗡𝗮𝗺𝗲" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="E1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_5" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗢𝗿𝗱𝗲𝗿 𝗜𝗗" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="F1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_6" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗦𝗲𝗻𝘁𝗶𝗺𝗲𝗻𝘁" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="G1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_7" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗦𝗲𝗻𝘁𝗶𝗺𝗲𝗻𝘁 𝗦𝗰𝗼𝗿𝗲" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="H1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_8" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗖𝗮𝘁𝗲𝗴𝗼𝗿𝘆" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="I1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_9" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗦𝘂𝗺𝗺𝗮𝗿𝘆" />
+                                  <tga:WriteCell AuthScopesInvalid="False" Cell="J1" DisplayName="Write Cell" sap2010:WorkflowViewState.IdRef="WriteCell_10" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" Value="𝗔𝗰𝘁𝗶𝗼𝗻 𝗡𝗲𝗲𝗱𝗲𝗱" />
+                                  <tga:WriteRange Result="{x:Null}" AuthScopesInvalid="False" DataTable="[dtResponses]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="WriteRange_1" IncludeHeaders="False" IsInsideBatchUpdateScope="False" Pause="True" SheetName="Sheet1" SpreadsheetId="[spreadsheetSSID]" StartCell="A2" />
+                                </Sequence>
+                              </ActivityAction>
+                            </tga:GoogleSheetApplScope.Body>
+                            <tga:GoogleSheetApplScope.UserEmail>
+                              <InArgument x:TypeArguments="x:String">
+                                <Literal x:TypeArguments="x:String" Value="" />
+                              </InArgument>
+                            </tga:GoogleSheetApplScope.UserEmail>
+                            <tga:GoogleSheetApplScope.UserID>
+                              <InArgument x:TypeArguments="x:String">
+                                <Literal x:TypeArguments="x:String" Value="" />
+                              </InArgument>
+                            </tga:GoogleSheetApplScope.UserID>
+                            <tga:GoogleSheetApplScope.UserPassword>
+                              <InArgument x:TypeArguments="x:String">
+                                <Literal x:TypeArguments="x:String" Value="" />
+                              </InArgument>
+                            </tga:GoogleSheetApplScope.UserPassword>
+                            <tga:GoogleSheetApplScope.Username>
+                              <InArgument x:TypeArguments="x:String">
+                                <Literal x:TypeArguments="x:String" Value="" />
+                              </InArgument>
+                            </tga:GoogleSheetApplScope.Username>
+                          </tga:GoogleSheetApplScope>
+                          <FlowStep.Next>
+                            <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+                              <tca:ForEachDataRow DataTable="[dtResponses]" DisplayName="ForEach DataRow" ElementIndex="[element_index]" sap2010:WorkflowViewState.IdRef="ForEachDataRow_1" Pause="True">
+                                <tca:ForEachDataRow.Body>
+                                  <ActivityAction x:TypeArguments="sd:DataRow">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="tca:Universal" Name="customer_name" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="feedback_category" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="order_id" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="score" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="sentiment" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="customer_email" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="subject" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="_date" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="feedback_summary" />
+                                        <Variable x:TypeArguments="tca:Universal" Name="action_needed" />
+                                        <Variable x:TypeArguments="x:String" Name="filename" />
+                                      </Sequence.Variables>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="customer_name" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_1" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[customer_name]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="feedback_category" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_2" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[feedback_category]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="order_id" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_3" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[order_id]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="score" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_4" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[score]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="sentiment" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_5" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[sentiment]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="customer_email" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_6" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[customer_email]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="subject" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_7" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[subject]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="date" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_8" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[_date]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="feedback_summary" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_9" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[feedback_summary]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tca:FetchDataItem ColumnNumber="{x:Null}" ColumnName="action_needed" DataRow="[row]" DisplayName="Fetch Data Item" sap2010:WorkflowViewState.IdRef="FetchDataItem_10" Pause="True">
+                                        <tca:FetchDataItem.Result>
+                                          <OutArgument x:TypeArguments="tca:Universal">[action_needed]</OutArgument>
+                                        </tca:FetchDataItem.Result>
+                                      </tca:FetchDataItem>
+                                      <tea:SendSMTPMail Attachments="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" Result="{x:Null}" Body="[&quot;Dear Customer Service Team,&quot; + Environment.NewLine + Environment.NewLine + &#xA;&quot;A new customer feedback has been received. Below is the summary.&quot; + Environment.NewLine + Environment.NewLine + &#xA;&quot;Feedback Details:&quot; + Environment.NewLine + &#xA;&quot;𝗦𝗲𝗻𝘁𝗶𝗺𝗲𝗻𝘁 𝗦𝗰𝗼𝗿𝗲: &quot; + score + &quot; (&quot; + sentiment + &quot;)&quot; + Environment.NewLine + &#xA;&quot;𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗖𝗮𝘁𝗲𝗴𝗼𝗿𝘆: &quot; + feedback_category + Environment.NewLine + &#xA;&quot;𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗡𝗮𝗺𝗲: &quot; + customer_name + Environment.NewLine + &#xA;&quot;𝗗𝗮𝘁𝗲: &quot; + _date + Environment.NewLine + Environment.NewLine + &#xA;&quot;𝗙𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗦𝘂𝗺𝗺𝗮𝗿𝘆: &quot; + feedback_summary + Environment.NewLine + Environment.NewLine + &#xA;&quot;𝗔𝗰𝘁𝗶𝗼𝗻 𝗡𝗲𝗲𝗱𝗲𝗱: &quot; + action_needed + Environment.NewLine + Environment.NewLine + &#xA;&quot;𝗖𝘂𝘀𝘁𝗼𝗺𝗲𝗿 𝗘𝗺𝗮𝗶𝗹: &quot; + customer_email + Environment.NewLine + &#xA;&quot;𝗢𝗿𝗱𝗲𝗿 𝗜𝗗: &quot; + order_id + Environment.NewLine + Environment.NewLine + &#xA;&quot;Best Regards,&quot; + Environment.NewLine + &#xA;&quot;Customer Feedback System&quot;]" DisplayName="Send SMTP Mail" EnableSSL="True" HtmlFlag="False" sap2010:WorkflowViewState.IdRef="SendSMTPMail_1" Pause="True" Port="587" SecureConnection="Auto" SenderName="Customer Feedback System" Server="smtp.gmail.com" Subject="[subject]" TimeoutMS="30000">
+                                        <tea:SendSMTPMail.Email>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </tea:SendSMTPMail.Email>
+                                        <tea:SendSMTPMail.Files>
+                                          <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                                        </tea:SendSMTPMail.Files>
+                                        <tea:SendSMTPMail.From>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </tea:SendSMTPMail.From>
+                                        <tea:SendSMTPMail.Password>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </tea:SendSMTPMail.Password>
+                                        <tea:SendSMTPMail.To>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </tea:SendSMTPMail.To>
+                                        <tea:SendSMTPMail._Attachments>
+                                          <scg:List x:TypeArguments="x:String" Capacity="0" />
+                                        </tea:SendSMTPMail._Attachments>
+                                      </tea:SendSMTPMail>
+                                    </Sequence>
+                                  </ActivityAction>
+                                </tca:ForEachDataRow.Body>
+                              </tca:ForEachDataRow>
+                              <FlowStep.Next>
+                                <FlowStep x:Name="__ReferenceID9">
+                                  <tca2:AssignToSecuredString DisplayName="Assign To Secure String" Pause="True" To="[pwd]" Value="sN9vh8RjJ9Hda_s" sap2010:WorkflowViewState.IdRef="AssignToSecuredString_1" />
+                                  <FlowStep.Next>
+                                    <FlowStep x:Name="__ReferenceID10">
+                                      <tta:TruCapApplicationScope ExistingConnectionofTruCap="{x:Null}" Result="{x:Null}" SecurityToken="{x:Null}" TruCapConnection="{x:Null}" TruCapConnectionInfo="{x:Null}" serviceUrl="{x:Null}" API_Version="V1" ApplicationServer="https://hackathon.trucap.io/" DisplayName="TruCap+ Application Scope" LogoutOnClose="True" Password="[pwd]" Pause="True" Timeout="30" TruCapConnected="True" Username="Ashish" authorizationToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQXNoaXNoIiwidXNlcmNvZGUiOiI3IiwiZXhwIjoxNzM0NDY5NDU3fQ.5e_ZR7CG6ZL1SWvydifeAz3DMfOAYOP7oLO14ZMURVI" sid="92239220-e5d4-45f3-9b7f-ba7ebe3186c7">
+                                        <tta:TruCapApplicationScope.Body>
+                                          <ActivityAction x:TypeArguments="tt:ITruCapService">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="tt:ITruCapService" Name="ITruCapService" />
+                                            </ActivityAction.Argument>
+                                            <Sequence DisplayName="Do">
+                                              <tta:SendFiles ClientTransactionNumber="{x:Null}" CountryCode="{x:Null}" FileReferenceId="{x:Null}" MetaData="{x:Null}" Result="{x:Null}" Username="{x:Null}" DisplayName="Send Files" DocumentSubType="Product Invoice" DocumentType="S-MAILS" FileType="All" Files="C:\Emails\SaveAttachment" Label="Customer Invoice 2" Pause="True" Timeout="30" sap2010:WorkflowViewState.IdRef="SendFiles_1" />
+                                              <sap2010:WorkflowViewState.IdRef>Sequence_6</sap2010:WorkflowViewState.IdRef>
+                                            </Sequence>
+                                          </ActivityAction>
+                                        </tta:TruCapApplicationScope.Body>
+                                        <tta:TruCapApplicationScope.DesignPassword>
+                                          <ss:SecureString x:Name="__ReferenceID0" />
+                                        </tta:TruCapApplicationScope.DesignPassword>
+                                        <tta:TruCapApplicationScope.DesignTruCapConnectionInfo>
+                                          <tts:TruCapConnectionInfo Password="{x:Reference __ReferenceID0}" SecurityToken="{x:Null}" ValidationUrl="{x:Null}" APIVersion="V1" BaseApiUrl="https://hackathon.trucap.io/" SessionId="" Token="" UserName="Ashish" />
+                                        </tta:TruCapApplicationScope.DesignTruCapConnectionInfo>
+                                        <tta:TruCapApplicationScope.TruCapObjects>
+                                          <scg:List x:TypeArguments="ttm:OntologyDetail" Capacity="32">
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="1" DocumentSubTypeName="EMAIL" DocumentTypeId="1" DocumentTypeName="Test-1" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="2" DocumentSubTypeName="EMAIL-1" DocumentTypeId="2" DocumentTypeName="emailprocessing" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="3" DocumentSubTypeName="F&amp;F IMG" DocumentTypeId="4" DocumentTypeName="F&amp;F" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="4" DocumentSubTypeName="blackout" DocumentTypeId="8" DocumentTypeName="cipher" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="5" DocumentSubTypeName="covert" DocumentTypeId="8" DocumentTypeName="cipher" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="6" DocumentSubTypeName="inbox" DocumentTypeId="8" DocumentTypeName="cipher" />
+                                            <ttm:OntologyDetail DocumentCategoryId="3" DocumentCategoryName="cat_1" DocumentSubTypeId="7" DocumentSubTypeName="extracct" DocumentTypeId="9" DocumentTypeName="fetcg_mail" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="8" DocumentSubTypeName="sub1" DocumentTypeId="10" DocumentTypeName="project1" />
+                                            <ttm:OntologyDetail DocumentCategoryId="4" DocumentCategoryName="EMAIL_EXTRACTION_2" DocumentSubTypeId="9" DocumentSubTypeName="customer_feedback" DocumentTypeId="11" DocumentTypeName="EMAIL_PROJECT" />
+                                            <ttm:OntologyDetail DocumentCategoryId="4" DocumentCategoryName="EMAIL_EXTRACTION_2" DocumentSubTypeId="10" DocumentSubTypeName="customer_feedback_2" DocumentTypeId="11" DocumentTypeName="EMAIL_PROJECT" />
+                                            <ttm:OntologyDetail DocumentCategoryId="4" DocumentCategoryName="EMAIL_EXTRACTION_2" DocumentSubTypeId="11" DocumentSubTypeName="feedback_email_2" DocumentTypeId="11" DocumentTypeName="EMAIL_PROJECT" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="12" DocumentSubTypeName="test123" DocumentTypeId="20" DocumentTypeName="email_process" />
+                                            <ttm:OntologyDetail DocumentCategoryId="4" DocumentCategoryName="EMAIL_EXTRACTION_2" DocumentSubTypeId="13" DocumentSubTypeName="extraction_2_subtype" DocumentTypeId="12" DocumentTypeName="email_extraction_2_project" />
+                                            <ttm:OntologyDetail DocumentCategoryId="5" DocumentCategoryName="Customer Email" DocumentSubTypeId="14" DocumentSubTypeName="Text Emails" DocumentTypeId="13" DocumentTypeName="Customer Feedback Project" />
+                                            <ttm:OntologyDetail DocumentCategoryId="5" DocumentCategoryName="Customer Email" DocumentSubTypeId="15" DocumentSubTypeName="Text Email" DocumentTypeId="13" DocumentTypeName="Customer Feedback Project" />
+                                            <ttm:OntologyDetail DocumentCategoryId="6" DocumentCategoryName="PDF_EMAILS" DocumentSubTypeId="16" DocumentSubTypeName="EMAILS_PDF_SUB" DocumentTypeId="14" DocumentTypeName="PDF_EMAILS_PROJECT" />
+                                            <ttm:OntologyDetail DocumentCategoryId="4" DocumentCategoryName="EMAIL_EXTRACTION_2" DocumentSubTypeId="20" DocumentSubTypeName="extraction" DocumentTypeId="18" DocumentTypeName="email" />
+                                            <ttm:OntologyDetail DocumentCategoryId="1" DocumentCategoryName="IITB" DocumentSubTypeId="21" DocumentSubTypeName="xw" DocumentTypeId="20" DocumentTypeName="email_process" />
+                                            <ttm:OntologyDetail DocumentCategoryId="21" DocumentCategoryName="Attachments" DocumentSubTypeId="32" DocumentSubTypeName="Porduct Images" DocumentTypeId="34" DocumentTypeName="S-MAILS" />
+                                            <ttm:OntologyDetail DocumentCategoryId="21" DocumentCategoryName="Attachments" DocumentSubTypeId="33" DocumentSubTypeName="Product Invoice" DocumentTypeId="34" DocumentTypeName="S-MAILS" />
+                                            <ttm:OntologyDetail DocumentCategoryId="21" DocumentCategoryName="Attachments" DocumentSubTypeId="34" DocumentSubTypeName="Invoice" DocumentTypeId="34" DocumentTypeName="S-MAILS" />
+                                          </scg:List>
+                                        </tta:TruCapApplicationScope.TruCapObjects>
+                                        <sap2010:WorkflowViewState.IdRef>TruCapApplicationScope_1</sap2010:WorkflowViewState.IdRef>
+                                      </tta:TruCapApplicationScope>
+                                      <sap2010:WorkflowViewState.IdRef>FlowStep_10</sap2010:WorkflowViewState.IdRef>
+                                    </FlowStep>
+                                  </FlowStep.Next>
+                                  <sap2010:WorkflowViewState.IdRef>FlowStep_11</sap2010:WorkflowViewState.IdRef>
+                                </FlowStep>
+                              </FlowStep.Next>
+                            </FlowStep>
+                          </FlowStep.Next>
+                        </FlowStep>
+                      </FlowStep.Next>
+                    </FlowStep>
+                  </FlowStep.Next>
+                </FlowStep>
+              </FlowStep.Next>
+            </FlowStep>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowStep.Next>
+    </FlowStep>
     <x:Reference>__ReferenceID1</x:Reference>
     <x:Reference>__ReferenceID2</x:Reference>
     <x:Reference>__ReferenceID3</x:Reference>
@@ -305,7 +380,10 @@
     <x:Reference>__ReferenceID5</x:Reference>
     <x:Reference>__ReferenceID6</x:Reference>
     <x:Reference>__ReferenceID7</x:Reference>
-    <sads:DebugSymbol.Symbol>dzVEOlxEYXRhbWF0aWNzLUhhY2thdGhvblxGZWVkYmFja0FuYWx5c2lzXERlZmF1bHQueGFtbJwBPAO1Ag8CAQFECUSoAQMByQFHDVIfAwG/AVURZR8DAawBaBV8JwMBpQF/GX/qEQMBogGCAR2CAfsBAwGeAYUBIbMBPAIBT7YBJZsCOgIBAkQsREUDAcoBR80BR98BAwHHAUfEAkfLAgMBxgFKE0pCAwHFAUckRygDAcQBR4QCR4kCAwHDAUepAke5AgMBwgFPE09CAwHBAUemAUetAQMBwAFVsQFVwwEDAb0BWxdiIgMBrQF5G3lKAwGrAW4bdCYDAaYBfzh/RwMBowGCAWGCAXADAaABggGiAYIBvwEDAZ8BqwEnqwFWAwGdAaYBJ6YBVgMBnAGwASewAVYDAZsBoQEnoQFWAwGaAYsBJ5wBMgIBULYBfrYBjwECAU22AUO2AVICAUu8ASuYAjYCAQNfGV+CAQMBugFgGWCKAgMBswFhGWGBAgMBrgFzHXO2FQMBpwGQASmQAcwCAwGUAZEBKZEBmQIDAY4BkgEpkgGsAgMBiAGTASmTAaoCAwGCAZQBKZQBqgICAXyVASmVAaACAgF2lgEplgGjAgIBcJcBKZcBrgICAWqYASmYAbICAgFkmQEpmQGwAgIBXpoBKZoBqwICAVibASmbAdMCAgFRygEtzgFBAgFFzwEt0wFBAgE/1AEt2AFBAgE52QEt3QFBAgEz3gEt4gFBAgEt4wEt5wFBAgEn6AEt7AFBAgEh7QEt8QFBAgEb8gEt9gFBAgEV9wEt+wFBAgEP/AEtlwJAAgEEX1dffwMBuwFg1wFg2wEDAbkBYL0BYM0BAwG3AWCgAWCzAQMBtQFglQFgmAEDAbQBYekBYfEBAwGxAWFhYa4BAwGvAXOiFXOzFQMBqQFzwwFzmhUDAagBkAG4ApAByQIDAZkBkAGtAZABvwEDAZcBkAGUApABpwIDAZUBkQGMApEBlgIDAZMBkQFXkQFbAwGSAZEB2wGRAeMBAwGRAZEB8gGRAYUCAwGPAZIBjAKSAakCAwGNAZIBV5IBWwMBjAGSAdsBkgHjAQMBiwGSAfIBkgGFAgMBiQGTAYwCkwGnAgMBhwGTAVeTAVsDAYYBkwHbAZMB4wEDAYUBkwHyAZMBhQIDAYMBlAGMApQBpwIDAYEBlAFXlAFbAwGAAZQB2wGUAeMBAgF/lAHyAZQBhQICAX2VAYwClQGdAgIBe5UBV5UBWwIBepUB2wGVAeMBAgF5lQHyAZUBhQICAXeWAYwClgGgAgIBdZYBV5YBWwIBdJYB2wGWAeMBAgFzlgHyAZYBhQICAXGXAYwClwGrAgIBb5cBV5cBWwIBbpcB2wGXAeMBAgFtlwHyAZcBhQICAWuYAYwCmAGvAgIBaZgBV5gBWwIBaJgB2wGYAeMBAgFnmAHyAZgBhQICAWWZAYwCmQGtAgIBY5kBV5kBWwIBYpkB2wGZAeMBAgFhmQHyAZkBhQICAV+aAY0CmgGoAgIBXZoBV5oBWwIBXJoB3AGaAeQBAgFbmgHzAZoBhgICAVmbAW+bAX4CAVabAZcCmwGfAgIBVZsBrgKbAcECAgFTmwHMApsB0AICAVLMAV7MAW0CAUnKAWPKAXICAUjKAXvKAYIBAgFG0QFe0QFxAgFDzwFjzwF2AgFCzwF/zwGGAQIBQNYBXtYBaAIBPdQBY9QBbQIBPNQBdtQBfQIBOtsBXtsBZQIBN9kBY9kBagIBNtkBc9kBegIBNOABXuABaQIBMd4BY94BbgIBMN4Bd94BfgIBLuUBXuUBbgIBK+MBY+MBcwIBKuMBfOMBgwECASjqAV7qAWcCASXoAWPoAWwCASToAXXoAXwCASLvAV7vAWUCAR/tAWPtAWkCAR7tAXLtAXkCARz0AV70AXACARnyAWPyAXUCARjyAX7yAYUBAgEW+QFe+QFtAgET9wFj9wFyAgES9wF79wGCAQIBEJECM5ECYgIBDvwBrAz8AbMMAgEN/AGhAfwBrwoCAQz8AZYM/AGhDAIBC4cCM4cCYgIBCv8BM/8BYgIBCfwBsgv8AbcLAgEI/AH9C/wBjQwCAQeMAjOMAmICAQb8AdsL/AH1CwIBBQ==</sads:DebugSymbol.Symbol>
+    <x:Reference>__ReferenceID8</x:Reference>
+    <x:Reference>__ReferenceID9</x:Reference>
+    <x:Reference>__ReferenceID10</x:Reference>
+    <sads:DebugSymbol.Symbol>dzVEOlxEYXRhbWF0aWNzLUhhY2thdGhvblxGZWVkYmFja0FuYWx5c2lzXERlZmF1bHQueGFtbAVCA4MDDwIBAUsJS6gBAgEETg1OrQECAQJLLEtFAgEFTjBOSgIBAw==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -316,6 +394,30 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CreateDirectory_2" sap:VirtualizedContainerService.HintSize="200,52">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_9">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,186</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,84</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,136 300,186</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="GetImapMail_1" sap:VirtualizedContainerService.HintSize="200,22">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -323,10 +425,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="311,62" />
-      <sap2010:ViewStateData Id="Replace_1" sap:VirtualizedContainerService.HintSize="311,22" />
-      <sap2010:ViewStateData Id="SaveMails_1" sap:VirtualizedContainerService.HintSize="311,89" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="330,345" />
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="461,62" />
+      <sap2010:ViewStateData Id="Replace_1" sap:VirtualizedContainerService.HintSize="461,22" />
+      <sap2010:ViewStateData Id="SaveMails_1" sap:VirtualizedContainerService.HintSize="461,89" />
+      <sap2010:ViewStateData Id="SaveAttachments_1" sap:VirtualizedContainerService.HintSize="311,89" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="330,181" />
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="461,331" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="480,716" />
       <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="200,52">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -396,11 +501,45 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AssignToSecuredString_1" sap:VirtualizedContainerService.HintSize="200,52">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SendFiles_1" sap:VirtualizedContainerService.HintSize="311,247" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="330,339" />
+      <sap2010:ViewStateData Id="TruCapApplicationScope_1" sap:VirtualizedContainerService.HintSize="200,52">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_10">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,818</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_11">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,716</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,768 300,818</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="FlowStep_1">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">200,614</av:Point>
             <av:Size x:Key="ShapeSize">200,52</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,666 300,716</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -458,24 +597,14 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowStep_8">
-        <sap:WorkflowViewStateService.ViewState>
-          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">200,124</av:Point>
-            <av:Size x:Key="ShapeSize">200,52</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">300,176 300,206</av:PointCollection>
-          </scg:Dictionary>
-        </sap:WorkflowViewStateService.ViewState>
-      </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="661,712">
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="611,1004.5">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
             <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
             <av:Size x:Key="ShapeSize">60,75</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,124</av:PointCollection>
-            <x:Double x:Key="Height">676</x:Double>
-            <x:Double x:Key="Width">650</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,84</av:PointCollection>
+            <x:Double x:Key="Height">968.5</x:Double>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
