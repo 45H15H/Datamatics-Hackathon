@@ -70,7 +70,7 @@ def process_eml_files(folder_path, url, output_csv):
                 writer.writerow(result)
 
 # Define the URL of the Flask application
-url = 'https://extract-details.onrender.com'
+url = 'https://sentiment-analysis-with-invoice.onrender.com'
 
 # Path to the folder containing .eml files
 folder_path = r'C:\Emails\SaveIMAPmails'
